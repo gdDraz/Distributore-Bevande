@@ -1,0 +1,18 @@
+# Output di compilazione
+bin/
+out/
+target/
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Strumenti di refactoring automatico
+.github/modernize/

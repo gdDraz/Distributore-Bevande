@@ -1,0 +1,62 @@
+{"Bevande": [
+    {
+        "Quantita": 21.625,
+        "Tipo": "Caffe",
+        "Prezzo": 1,
+        "Aggiunte": [
+            "Nessuna",
+            "Latte",
+            "Cioccolata"
+        ]
+    },
+    {
+        "Quantita": 4,
+        "Tipo": "Latte",
+        "Prezzo": 1,
+        "Aggiunte": [
+            "Nessuna",
+            "Caffe",
+            "Cioccolata"
+        ]
+    },
+    {
+        "Quantita": 4.5,
+        "Tipo": "The",
+        "Prezzo": 1.2,
+        "Aggiunte": ["Nessuna"]
+    },
+    {
+        "Quantita": 3.5,
+        "Tipo": "Camomilla",
+        "Prezzo": 1.4,
+        "Aggiunte": [
+            "Nessuna",
+            "The",
+            "Limone"
+        ]
+    },
+    {
+        "Quantita": 5,
+        "Tipo": "Cioccolata",
+        "Prezzo": 1.6,
+        "Aggiunte": ["Nessuna"]
+    },
+    {
+        "Quantita": 5,
+        "Tipo": "Acqua Calda",
+        "Prezzo": 0.6,
+        "Aggiunte": ["Nessuna"]
+    },
+    {
+        "Quantita": 2.75,
+        "Tipo": "Zucchero",
+        "Prezzo": 0.1,
+        "Aggiunte": ["Nessuna"]
+    },
+    {
+        "Quantita": 4.125,
+        "Tipo": "Limone",
+        "Prezzo": 0.2,
+        "Aggiunte": ["Nessuna"]
+    }
+]}

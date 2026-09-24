@@ -1,0 +1,236 @@
+@startuml
+
+title Relationships - Class Diagram
+package sistema
+{
+class Distributore <<Singleton>>{
+  -{static} instance:Distributore
+  -scorte:JSONObject
+  -consumi:Map<String, Double>
+  -prezzi:Map<String, Double> 
+  -bevande:List<Bevanda>
+  -chiavette:List<Chiavetta>
+  -{static}Quantita_BASE:double
+  -{static}  Quantita_AGGIUNTA:double
+  -Distributore()
+  -inizializzaScorte():void
+  -inizializza():void
+  -erogazione(Bevanda,boolean):void
+  -caricaChiavette():void
+  -salvaChiavette():void
+  +{static} getInstance():Distributore
+  +creaBevanda():Bevanda
+  +getPrezzo(String):double
+  +aggiungiScorte(Bevanda):void
+  +impostaPrezzo(Bevanda,double):void
+  +sottoScorta(Bevanda):boolean
+  +eroga(Bevanda):void
+  +reportConsumi():String
+  +getBevandeDisponibili():List<Bevanda>
+  +salvaScorte():void
+  +caricaDaFile():void
+  +salvaConsumi():void
+  +caricaConsumi():void
+  +getChiavettaById(String):Chiavetta
+  +creaNuovaChiavetta(String,double): Chiavetta
+  }
+
+class FileManager <<utility>>
+{
+  +{static}FILE_SCORTE="scorte.json"
+  +{static} FILE_CONSUMI="consumi.bin"
+  +{static} caricaScorte():void
+  +{static} salvaScorte():void
+  +{static} caricaConsumi(): Map<String,Double>
+  +{static} salvaConsumi():void
+}
+class ChiavetteManager <<utility>>
+{
+  +{static} FILE_CHIAVETTE="chiavette.json"
+  +{static}salvaChiavette():void
+  +{static}caricaChaiavette():List
+  +{static}creaNuovaChiavetta():Chiavetta
+}
+}
+package gui
+{
+  class JFrame
+  class JDialog
+  class AdminFrame
+  {
+    +AdminFrame()
+    +gestisciAggiunte():void
+    +gestisciScorte():void
+    +gestisciChiavette():void
+    +reportConsumi():void
+  }
+  class UserFrame
+  {
+    +UserFrame()
+    -aggiornaAggiunte():void
+    +preparaBevanda():void
+    +paga():void
+    +creaChiavetta():void
+    +ricaricaChiavetta():void
+  }
+  class MainFrame
+  {
+    +MainFrame()
+    +{static} main()
+  }
+
+
+}
+package factory
+{
+  class BevandaFactory{
+  +{static} Bevanda creaBevanda(Bevanda,int)
+  +{static} BevandaDecorator creaBevanda(Bevanda,Bevanda,int)
+  }
+}
+package pagamento
+{
+  interface PaymentStrategy <<interface>>
+  {
+    +paga(double):boolean
+    +getMetodoPagamento():String
+  }
+  class ChiavettaPayment
+  {
+    -chiavetta:Chiavetta
+    +ChiavettaPayment(Chiavetta)
+    +paga(double):boolean
+    +getMetodoPagamento():String
+    
+  }
+  class ContantiPayment
+  {
+
+    +ContantiPayment()
+    +paga(double):boolean
+    +String getMetodoPagamento()
+  }
+  class CartaCreditoPayment
+  {
+    +CartaCreditPayment()
+    +paga(double):boolean
+    +getMetodoPagamento():String
+  }
+  class Chiavetta
+  {
+    -id:String
+    -Saldo:double
+    +Chiavetta(String,double)
+    +preleva(double):boolean
+    +ricarica():void
+    +getSaldo():double
+    +getId():String
+  }
+}
+package bevande
+{
+  abstract class Bevanda 
+  {
+    -name:String
+    -price:double
+    -aggiunte:List<String> 
+    +Bevanda(String,double)
+    +getName():String
+    +getPrice():double
+    +setPrice(double):void
+    +getAggiunte():List
+    +addAggiunta(String);void
+    +eliminaAggiunta(String):void
+    +{abstract} prepara():String
+  }
+  abstract class BevandaDecorator <<abstract>>
+  {
+    -bevanda:Bevanda
+    -aggiunta:Bevanda
+    +BevandaDecorator(Bevanda,Bevanda)
+    +prepara();String
+    +getBevanda():Bevanda
+    +getAggiunta():Bevanda
+  }
+  class AcquaCalda
+  {
+  +prepara()
+  }
+  class Caffe
+  {
+  +prepara()
+  }
+  class The
+  {
+  +prepara()
+  }
+  class Latte
+  {
+  +prepara()
+  }
+  class Camomilla
+  {
+  +prepara()
+  }
+  class Cioccolata
+  {
+  +prepara()
+  }
+  class Limone
+  {
+  +prepara()
+  }
+  class Zucchero
+  {
+  +prepara()
+  }
+  class CaffeDecorator
+  class TheDecorator
+  class LatteDecorator
+  class CamomillaDecorator
+  class CioccolataDecorator
+  class LimoneDecorator
+  class ZuccheroDecorator
+
+
+}
+Distributore-->FileManager
+UserFrame-->PaymentStrategy
+AdminFrame-->Distributore
+AdminFrame-u-|>JFrame
+UserFrame-->Distributore
+Distributore-->BevandaFactory
+MainFrame-l->AdminFrame
+MainFrame-r->UserFrame
+MainFrame-up-|>JFrame
+UserFrame-up-|>JFrame
+ChiavettaPayment-down->Chiavetta
+ChiavettaPayment..up|>PaymentStrategy
+ContantiPayment..up|>PaymentStrategy
+CartaCreditoPayment..up|>PaymentStrategy
+Distributore-->ChiavetteManager
+ChiavetteManager-->Chiavetta
+BevandaDecorator--left|>Bevanda
+BevandaFactory-d->Bevanda: <<create>>
+BevandaFactory-d->BevandaDecorator:<<create>>
+BevandaDecorator*--Bevanda
+Distributore*--Chiavetta
+Distributore*--Bevanda
+AcquaCalda--up|>Bevanda
+Caffe--up|>Bevanda
+The--up|>Bevanda
+Latte--up|>Bevanda
+Camomilla--up|>Bevanda
+Cioccolata--up|>Bevanda
+Limone--up|>Bevanda
+Zucchero--up|>Bevanda
+CaffeDecorator--down|>BevandaDecorator
+TheDecorator--d|>BevandaDecorator
+LatteDecorator--d|>BevandaDecorator
+CamomillaDecorator--d|>BevandaDecorator
+CioccolataDecorator--d|>BevandaDecorator
+LimoneDecorator--d|>BevandaDecorator
+ZuccheroDecorator--d|>BevandaDecorator
+
+
+@enduml
